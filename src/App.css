@@ -1,4 +1,9 @@
 .App {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh; /* ビューポート全体の高さ */
     text-align: center;
     padding: 20px;
 }
@@ -11,7 +16,6 @@
 
 .mode-button {
     padding: 10px 20px;
-    background-color: #4CAF50;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -19,6 +23,34 @@
     transition: background-color 0.3s;
 }
 
-.mode-button:hover {
+.easy-button {
+    background-color: #4CAF50;
+}
+
+.easy-button:hover {
     background-color: #45a049;
+}
+
+.medium-button {
+    background-color: #ffc400;
+}
+
+.medium-button:hover {
+    background-color: #ecb500;
+}
+
+.hard-button {
+    background-color: #ff5233;
+}
+
+.hard-button:hover {
+    background-color: #e74d32;
+}
+
+
+
+.potta-one-regular {
+    font-family: "Potta One", system-ui;
+    font-weight: 400;
+    font-style: normal;
 }

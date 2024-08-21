@@ -9,6 +9,9 @@ function Game() {
     const [moles, setMoles] = useState(Array(NUM_MOLES).fill(false));
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(30);
+    const [gameStarted, setGameStarted] = useState(false);
+    const [countdown, setCountdown] = useState(3);
+    const [showCountdown, setShowCountdown] = useState(false);
     const lacation = useLocation();
     const searchParams = new URLSearchParams(lacation.search);
     const mode = searchParams.get('mode');
@@ -17,13 +20,13 @@ function Game() {
     if (mode === 'medium') moleInterval = 700;
     if (mode === 'hard') moleInterval = 500;
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const newMoles = moles.map(() => Math.random() < 0.3);
-            setMoles(newMoles);
-        }, moleInterval);
-        return () => clearInterval(interval);
-    }, [moles]);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         const newMoles = moles.map(() => Math.random() < 0.3);
+    //         setMoles(newMoles);
+    //     }, moleInterval);
+    //     return () => clearInterval(interval);
+    // }, [moles]);
 
     const handleClick = (index) => {
         if (moles[index]) {
@@ -34,14 +37,43 @@ function Game() {
         }
     }
 
+    // useEffect(() => {
+    //     if (timeLeft > 0) {
+    //         const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    //         return () => clearTimeout(timer);
+    //     } else {
+    //         alert('ゲームオーバー！\nスコア：' + score);
+    //     }
+    // }, [timeLeft]);
+
+
+
+
+
     useEffect(() => {
-        if (timeLeft > 0) {
+        if (gameStarted) {
+            const interval = setInterval(() => {
+            const newMoles = moles.map(() => Math.random() < 0.3);
+            setMoles(newMoles);
+        }, 1000);
+        return () => clearInterval(interval);
+        }
+    }, [gameStarted]);
+    
+    useEffect(() => {
+        if (gameStarted && timeLeft > 0) {
             const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
             return () => clearTimeout(timer);
-        } else {
+        } else if (timeLeft === 0) {
             alert('ゲームオーバー！\nスコア：' + score);
         }
-    }, [timeLeft]);
+    }, [timeLeft, gameStarted]);
+
+
+
+
+
+
 
 
     useEffect(() => {
@@ -58,10 +90,35 @@ function Game() {
     };
 
 
+    const startCountdown = () => {
+        setShowCountdown(true);
+        const countdownInterval = setInterval(() => {
+            setCountdown((prevCountdown) => {
+                if (prevCountdown === 1) {
+                    clearInterval(countdownInterval);
+                    setShowCountdown(false);
+                    setGameStarted(true);
+                    return 3;
+                }
+                return prevCountdown - 1;
+            });
+        }, 1000);
+    };
+
     return (
         <div className="Game">
-            <h1>スコ：{score}</h1>
-            <h2>残り時間：{timeLeft}秒</h2>
+            {!gameStarted && !showCountdown && (
+                <div className="overlay">
+                <button onClick={startCountdown}>ゲームスタート</button>
+                </div>
+            )}
+            {showCountdown && (
+                <div className="overlay">
+                <h1 className="countdown">{countdown}</h1>
+                </div>
+            )}
+            <h1>残り時間：{timeLeft}秒</h1>
+            <h2>スコア：{score}</h2>
             <div className="mole-grid">
                 {moles.map((mole, index) => (
                 <div key={index} className="hole" onClick={ () => handleClick(index) }>
@@ -78,7 +135,7 @@ function Game() {
                 </div>
                 ))}
             </div>
-            <button onClick={resetGame}>リセット</button>
+            <button className="reset-button" onClick={resetGame}>リセット</button>
         </div>
     );
 }

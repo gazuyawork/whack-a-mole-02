@@ -18,12 +18,12 @@ function App() {
 const TopPage = () => {
     return (
         <div>
-            <h1>もぐらたたきゲーム</h1>
-            <p>ゲームモードを選択してください</p>
+            <h1 className="potta-one-regular">もぐらたたきゲーム</h1>
+            <p className="potta-one-regular">ゲームモードを選択してください</p>
             <div className="mode-buttons">
-                <Link to="/game?mode=easy" className="mode-button">かんたん</Link>
-                <Link to="/game?mode=medium" className="mode-button">ふつう</Link>
-                <Link to="/game?mode=hard" className="mode-button">むずかしい</Link>
+                <Link to="/game?mode=easy" className="mode-button easy-button potta-one-regular">かんたん</Link>
+                <Link to="/game?mode=medium" className="mode-button medium-button potta-one-regular">ふつう</Link>
+                <Link to="/game?mode=hard" className="mode-button hard-button potta-one-regular">むずかしい</Link>
             </div>
         </div>
     );

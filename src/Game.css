@@ -1,0 +1,24 @@
+.mole-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 100px); /* 3列のグリッドレイアウト */
+    gap: 20px;
+    justify-content: center; /* グリッド全体を中央に配置 */
+    margin-top: 20px;
+  }
+  
+  .hole {
+    width: 100px; /* モグラが表示される穴の幅 */
+    height: 100px; /* モグラが表示される穴の高さ */
+    background-color: rgb(75, 4, 4);
+    position: relative; /* モグラの相対位置を設定 */
+    border-radius: 50%; /* 穴を丸くする */
+  }
+  
+  .mole {
+    position: absolute; /* モグラの位置を絶対位置で設定 */
+    top: 0; /* モグラを縦中央に配置 */
+    left: 0; /* モグラを横中央に配置 */
+    transform: translate(-50%, -50%); /* 中央揃えのための補正 */
+    width: 100%; /* モグラの幅を穴の幅に合わせる */
+    height: auto; /* モグラの高さを自動調整 */
+  }

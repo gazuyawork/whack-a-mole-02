@@ -19,7 +19,7 @@ function App() {
 
 const TopPage = () => {
 
-    const [gridSize, setGridSize] = useState(2); // 初期値を2（2*2）に設定
+    const [gridSize, setGridSize] = useState(3); // 初期値を2（2*2）に設定
     const [difficulty, setDifficulty] = useState('easy'); // 難易度の初期値を設定
     const navigate = useNavigate();
 

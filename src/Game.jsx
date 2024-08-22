@@ -99,14 +99,31 @@ function Game() {
     };
 
     // モグラをクリックした時のスコア加算処理
+    // const handleClick = (index) => {
+    //     if (moles[index]) {
+    //         setScore(score + 1);
+    //         const newMoles = [...moles];
+    //         newMoles[index] = false;
+    //         setMoles(newMoles);
+    //     }
+    // };
+
+    // モグラをクリックした時のスコア加算処理
     const handleClick = (index) => {
         if (moles[index]) {
             setScore(score + 1);
+
+            // バイブレーションを実行（50msのバイブレーション）
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+
             const newMoles = [...moles];
             newMoles[index] = false;
             setMoles(newMoles);
         }
     };
+
 
 
 

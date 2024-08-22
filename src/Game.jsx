@@ -7,19 +7,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 function Game() {
     // React Routerの機能を使用してURLのクエリパラメータからモードを取得
-    // const location = useLocation();
-    // const searchParams = new URLSearchParams(location.search);
-    // const mode = searchParams.get('mode');
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const gridSize = parseInt(searchParams.get('size')) || 2; // デフォルト値は2（2x2グリッド）
     const numMoles = gridSize * gridSize;  // グリッド全体の穴の数    
     const mode = searchParams.get('mode') || 'easy'; // デフォルト値はeasy
 
-
-    
     // ゲームの状態管理用のステート
     const [moles, setMoles] = useState(Array(numMoles).fill(false));
+    const [moleTypes, setMoleTypes] = useState(Array(numMoles).fill(null));
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(30);
     const [gameStarted, setGameStarted] = useState(false);
@@ -28,6 +24,14 @@ function Game() {
     const [showResetOverlay, setShowResetOverlay] = useState(false);
     const [showScoreOverlay, setShowScoreOvelay] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
+
+    // モグラの画像のパス
+    const moleImages = [
+        '/images/mole.png',
+        '/images/mole1.png',
+        '/images/mole2.png',
+    ];
+    
 
     // ゲームモードに応じたモグラ出現のインターバル設定
     let moleInterval = 1000;
@@ -99,16 +103,34 @@ function Game() {
         }
     };
 
+
+
+
     // ゲームが開始されたら、モグラの出現を制御
     useEffect(() => {
         if (gameStarted) {
             const interval = setInterval(() => {
                 const newMoles = moles.map(() => Math.random() < 0.3);
+
+                const newMoleTypes = newMoles.map((isMoleVisible, index) => {
+                    return isMoleVisible ? moleImages[Math.floor(Math.random() * moleImages.length)] : null;
+                });
                 setMoles(newMoles);
+                setMoleTypes(newMoleTypes);
+
+                // setMoles(newMoles);
             }, moleInterval);
             return () => clearInterval(interval);
         }
     }, [gameStarted]);
+
+
+
+
+
+
+
+
 
     // タイマーのカウントダウンを制御
     useEffect(() => {
@@ -161,7 +183,8 @@ function Game() {
                     <div key={index} className="hole" onClick={() => handleClick(index)}>
                         {mole && (
                             <motion.img
-                                src="/images/mole.png"
+                                // src="/images/mole.png"
+                                src={moleTypes[index]} // ランダムに選ばれたモグラの種類を表示
                                 alt="mole"
                                 className="mole"
                                 initial={{ y: 15, opacity: 0 }}

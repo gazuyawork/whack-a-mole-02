@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import './Game.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import mole1Sound from './sounds/mole1.mp3';
+
 
 // const NUM_MOLES = 9; // 穴の数
 
@@ -123,18 +125,39 @@ function Game() {
     //     }
     // };
 
+    // const handleClick = (index, event) => {
+        // if (moles[index]) {
+    //         setScore(score + 1);
+    
+    //         // エフェクトを追加
+    //         addEffect(event.clientX, event.clientY);
+    
+    //         const newMoles = [...moles];
+    //         newMoles[index] = false;
+    //         setMoles(newMoles);
+    //     }
+    // };
+
+    // モグラをクリックした時のスコア加算処理
     const handleClick = (index, event) => {
         if (moles[index]) {
             setScore(score + 1);
-    
-            // エフェクトを追加
-            addEffect(event.clientX, event.clientY);
-    
+
+            // モグラの種類を判別して特定の音を再生
+            if (moleTypes[index] === '/images/mole1.png') { // mole1.pngがクリックされた場合
+                const audio = new Audio(mole1Sound);
+                audio.play();
+            }
+
             const newMoles = [...moles];
             newMoles[index] = false;
             setMoles(newMoles);
+
+            // エフェクトを追加
+            addEffect(event.clientX, event.clientY);
         }
     };
+
 
 
 

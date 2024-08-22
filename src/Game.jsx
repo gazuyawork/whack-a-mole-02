@@ -3,30 +3,59 @@ import { motion } from 'framer-motion';
 import './Game.css';
 import { useLocation } from 'react-router-dom';
 
+
+import { useNavigate } from 'react-router-dom';
+
+
+
 const NUM_MOLES = 9; // 穴の数
 
 function Game() {
+    const lacation = useLocation();
+    const searchParams = new URLSearchParams(lacation.search);
+    const mode = searchParams.get('mode');
     const [moles, setMoles] = useState(Array(NUM_MOLES).fill(false));
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(30);
     const [gameStarted, setGameStarted] = useState(false);
     const [countdown, setCountdown] = useState(3);
     const [showCountdown, setShowCountdown] = useState(false);
-    const lacation = useLocation();
-    const searchParams = new URLSearchParams(lacation.search);
-    const mode = searchParams.get('mode');
+    const [showResetOverlay, setShowResetOverlay] = useState(false);  // リセットオーバーレイの表示状態を管理
+    const [showScoreOverlay, setShowScoreOvelay] = useState(false); // スコア表示用のオーバーレイ
+    const [isPaused, setIsPaused] = useState(false);  // ゲームが一時停止されているかどうかを管理
 
+    const handleReset = () => {
+        setIsPaused(true);  // ゲームを一時停止
+        setShowResetOverlay(true);  // リセットオーバーレイを表示
+    };
+    
+    const handleContinue = () => {
+        setShowCountdown(true);  // カウントダウンの表示を開始
+        setShowResetOverlay(false);  // リセットオーバーレイを非表示にする
+    
+        const countdownInterval = setInterval(() => {
+            setCountdown((prevCountdown) => {
+                if (prevCountdown === 1) {
+                    clearInterval(countdownInterval);
+                    setShowCountdown(false);  // カウントダウンを非表示にする
+                    setIsPaused(false);  // ゲームを再開
+                    return 3;  // カウントダウンをリセット
+                }
+                return prevCountdown - 1;
+            });
+        }, 1000);  // 1秒ごとにカウントダウン
+    };
+    
+    const navigate = useNavigate();
+    
+    const handleGoToTop = () => {
+        setShowResetOverlay(false);
+        navigate('/');  // Top画面に戻る
+    };
+    
     let moleInterval = 1000;
     if (mode === 'medium') moleInterval = 700;
     if (mode === 'hard') moleInterval = 500;
-
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         const newMoles = moles.map(() => Math.random() < 0.3);
-    //         setMoles(newMoles);
-    //     }, moleInterval);
-    //     return () => clearInterval(interval);
-    // }, [moles]);
 
     const handleClick = (index) => {
         if (moles[index]) {
@@ -36,19 +65,6 @@ function Game() {
             setMoles(newMoles);
         }
     }
-
-    // useEffect(() => {
-    //     if (timeLeft > 0) {
-    //         const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-    //         return () => clearTimeout(timer);
-    //     } else {
-    //         alert('ゲームオーバー！\nスコア：' + score);
-    //     }
-    // }, [timeLeft]);
-
-
-
-
 
     useEffect(() => {
         if (gameStarted) {
@@ -61,20 +77,14 @@ function Game() {
     }, [gameStarted]);
     
     useEffect(() => {
-        if (gameStarted && timeLeft > 0) {
+        if (gameStarted && timeLeft > 0 && !isPaused) {
             const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
             return () => clearTimeout(timer);
         } else if (timeLeft === 0) {
-            alert('ゲームオーバー！\nスコア：' + score);
+            // alert('ゲームオーバー！\nスコア：' + score);
+            setShowScoreOvelay(true);
         }
-    }, [timeLeft, gameStarted]);
-
-
-
-
-
-
-
+    }, [timeLeft, gameStarted, isPaused]);
 
     useEffect(() => {
         if (timeLeft === 0) {
@@ -106,10 +116,10 @@ function Game() {
     };
 
     return (
-        <div className="Game">
+        <div className="Game potta-one-regular">
             {!gameStarted && !showCountdown && (
                 <div className="overlay">
-                <button onClick={startCountdown}>ゲームスタート</button>
+                <button className="start-button potta-one-regular" onClick={startCountdown}>ゲームスタート</button>
                 </div>
             )}
             {showCountdown && (
@@ -117,6 +127,25 @@ function Game() {
                 <h1 className="countdown">{countdown}</h1>
                 </div>
             )}
+
+            {/* リセットオーバーレイ */}
+            {showResetOverlay && (
+            <div className="overlay">
+                <button onClick={handleGoToTop}>Top画面に戻る</button>
+                <button onClick={handleContinue}>コンテニュー</button>
+            </div>
+            )}
+
+            {/* スコア表示オーバーレイ */}
+            {showScoreOverlay && (
+            <div className="overlay">
+                <h2>ゲームオーバー！</h2>
+                <h3>スコア: {score}</h3>
+                <button onClick={handleGoToTop}>Top画面に戻る</button>
+                <button onClick={handleContinue}>リトライ</button>
+            </div>
+            )}
+
             <h1>残り時間：{timeLeft}秒</h1>
             <h2>スコア：{score}</h2>
             <div className="mole-grid">
@@ -135,7 +164,7 @@ function Game() {
                 </div>
                 ))}
             </div>
-            <button className="reset-button" onClick={resetGame}>リセット</button>
+            <button onClick={handleReset} className="reset-button potta-one-regular">リセット</button>
         </div>
     );
 }

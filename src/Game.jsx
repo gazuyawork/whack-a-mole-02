@@ -89,7 +89,7 @@ function Game() {
     useEffect(() => {
         if (timeLeft === 0) {
             setMoles(Array(9).fill(false)); // 全てのモグラを非表示
-            alert(`ゲームオーバー！最終スコアは ${score} です。`);
+            // alert(`ゲームオーバー！最終スコアは ${score} です。`);
         }
     }, [timeLeft]);
     
@@ -131,18 +131,18 @@ function Game() {
             {/* リセットオーバーレイ */}
             {showResetOverlay && (
             <div className="overlay">
-                <button onClick={handleGoToTop}>Top画面に戻る</button>
-                <button onClick={handleContinue}>コンテニュー</button>
+                <button onClick={handleGoToTop} className="potta-one-regular">Top画面に戻る</button>
+                <button onClick={handleContinue} className="potta-one-regular">コンテニュー</button>
             </div>
             )}
 
             {/* スコア表示オーバーレイ */}
             {showScoreOverlay && (
             <div className="overlay">
-                <h2>ゲームオーバー！</h2>
-                <h3>スコア: {score}</h3>
-                <button onClick={handleGoToTop}>Top画面に戻る</button>
-                <button onClick={handleContinue}>リトライ</button>
+                <h2 className="timeup">タイムアップ！</h2>
+                <h3 className="end-score">スコア: <span className="end-score-num">{score}</span></h3>
+                <button onClick={handleGoToTop} className="potta-one-regular">Top画面に戻る</button>
+                <button onClick={handleContinue} className="potta-one-regular">リトライ</button>
             </div>
             )}
 
@@ -164,7 +164,7 @@ function Game() {
                 </div>
                 ))}
             </div>
-            <button onClick={handleReset} className="reset-button potta-one-regular">リセット</button>
+            <button onClick={handleReset} className="stop-button potta-one-regular">ストップ</button>
         </div>
     );
 }

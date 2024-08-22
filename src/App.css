@@ -219,3 +219,25 @@ input[type="range"]::-ms-thumb:active {
     background-color: #ff7eb9;
     transform: scale(1.2);
 }
+
+
+/* エフェクトのスタイル */
+.effect {
+    position: absolute;
+    pointer-events: none;
+    width: 20px;
+    height: 20px;
+    background-image: url('./images/star.png'); /* 星の画像を使用 */
+    animation: flyaway 0.6s ease-out forwards;
+}
+
+@keyframes flyaway {
+    0% {
+        opacity: 1;
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5) translate(100px, -100px); /* エフェクトが飛び散る方向 */
+    }
+}

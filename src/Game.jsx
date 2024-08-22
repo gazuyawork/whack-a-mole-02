@@ -98,6 +98,21 @@ function Game() {
         navigate('/');  // Top画面に戻る
     };
 
+
+    // エフェクトを追加する関数
+    const addEffect = (x, y) => {
+        const effect = document.createElement('div');
+        effect.className = 'effect';
+        effect.style.left = `${x - 10}px`; // 位置を微調整
+        effect.style.top = `${y - 10}px`;  // 位置を微調整
+        document.body.appendChild(effect);
+    
+        setTimeout(() => {
+            effect.remove(); // アニメーションが終わったらエフェクトを削除
+        }, 600);
+    };
+    
+
     // モグラをクリックした時のスコア加算処理
     // const handleClick = (index) => {
     //     if (moles[index]) {
@@ -108,22 +123,18 @@ function Game() {
     //     }
     // };
 
-    // モグラをクリックした時のスコア加算処理
-    const handleClick = (index) => {
+    const handleClick = (index, event) => {
         if (moles[index]) {
             setScore(score + 1);
-
-            // バイブレーションを実行（50msのバイブレーション）
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-
+    
+            // エフェクトを追加
+            addEffect(event.clientX, event.clientY);
+    
             const newMoles = [...moles];
             newMoles[index] = false;
             setMoles(newMoles);
         }
     };
-
 
 
 
@@ -202,7 +213,9 @@ function Game() {
                 gridTemplateRows: `repeat(${gridSize}, 1fr)`
             }}>
                 {moles.map((mole, index) => (
-                    <div key={index} className="hole" onClick={() => handleClick(index)}>
+                    // <div key={index} className="hole" onClick={() => handleClick(index)}>
+                    <div key={index} className="hole" onClick={(event) => handleClick(index, event)}>
+
                         {mole && (
                             <motion.img
                                 // src="/images/mole.png"

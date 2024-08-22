@@ -124,3 +124,16 @@
     font-weight: 400;
     font-style: normal;
 }
+
+.effect {
+  position: absolute;
+  pointer-events: none;
+  width: 200px;
+  height: 200px;
+  background-image: url('./images/star.png'); /* ここで画像パスを確認 */
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1000; /* 他の要素に隠れないようにZインデックスを設定 */
+  animation: flyaway 0.6s ease-out forwards;
+}
+

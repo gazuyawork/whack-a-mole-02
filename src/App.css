@@ -8,6 +8,17 @@
     padding: 20px;
 }
 
+.game-title {
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.select-size {
+    font-size: 15px;
+    margin-top:0;
+    margin-bottom:50px;
+}
+
 .mode-buttons {
     display: flex;
     justify-content: center;
@@ -53,4 +64,158 @@
     font-family: "Potta One", system-ui;
     font-weight: 400;
     font-style: normal;
+}
+
+
+
+
+
+
+
+.difficulty-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.radio-button {
+    background-color: #ccc; /* デフォルトはグレー */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-size: 15px;
+    margin: 5px 5px 15px 5px;
+}
+
+.radio-button input[type="radio"] {
+    display: none; /* ラジオボタン本体は隠す */
+}
+
+.radio-button.easy-selected {
+    background-color: #4CAF50; /* 簡単: グリーン */
+    border-color: #4CAF50;
+    color: white;
+}
+
+.radio-button.medium-selected {
+    background-color: #FFC107; /* 普通: イエロー */
+    border-color: #FFC107;
+    color: white;
+}
+
+.radio-button.hard-selected {
+    background-color: #F44336; /* 難しい: レッド */
+    border-color: #F44336;
+    color: white;
+}
+
+.radio-button:hover {
+    opacity: 0.8; /* ホバー時に少し暗くする */
+}
+
+
+
+/* スライダーのコンテナ */
+input[type="range"] {
+    -webkit-appearance: none; /* デフォルトのスタイルを無効化 */
+    width: 100%;
+    margin: 15px 0;
+}
+
+/* スライダーのトラック部分 */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #7afcff, #fff740, #ff65a3);
+    border-radius: 10px;
+    border: 1px solid #d3d3d3;
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 12px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #7afcff, #fff740, #ff65a3);
+    border-radius: 10px;
+    border: 1px solid #d3d3d3;
+}
+
+input[type="range"]::-ms-track {
+    width: 100%;
+    height: 12px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+/* スライダーのサム（つまみ）部分 */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 2px solid #b3b3b3;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+    border: 2px solid #ff65a3;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]::-ms-thumb {
+    border: 2px solid #ff65a3;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* スライダーのサム（つまみ）部分のホバーとアクティブ時のスタイル */
+input[type="range"]::-webkit-slider-thumb:hover {
+    background-color: #ff65a3;
+    transform: scale(1.1);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    background-color: #ff7eb9;
+    transform: scale(1.2);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    background-color: #ff65a3;
+    transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb:active {
+    background-color: #ff7eb9;
+    transform: scale(1.2);
+}
+
+input[type="range"]::-ms-thumb:hover {
+    background-color: #ff65a3;
+    transform: scale(1.1);
+}
+
+input[type="range"]::-ms-thumb:active {
+    background-color: #ff7eb9;
+    transform: scale(1.2);
 }

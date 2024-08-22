@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import './Game.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import mole1Sound from './sounds/mole1.mp3';
+import pikachuSound from './sounds/pikachu.mp3';
 
 
 // const NUM_MOLES = 9; // 穴の数
@@ -37,6 +38,7 @@ function Game() {
         '/images/mole5.png',
         '/images/mole6.png',
         '/images/mole7.png',
+        '/images/pikachu.png',
     ];
     
 
@@ -146,6 +148,11 @@ function Game() {
             // モグラの種類を判別して特定の音を再生
             if (moleTypes[index] === '/images/mole1.png') { // mole1.pngがクリックされた場合
                 const audio = new Audio(mole1Sound);
+                audio.play();
+            }
+
+            if (moleTypes[index] === '/images/pikachu.png') { // mole1.pngがクリックされた場合
+                const audio = new Audio(pikachuSound);
                 audio.play();
             }
 

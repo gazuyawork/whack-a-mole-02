@@ -28,7 +28,7 @@ function Game() {
     // モグラの画像のパス
     const moleImages = [
         '/images/mole.png',
-        // '/images/mole1.png',
+        '/images/mole1.png',
         // '/images/mole2.png',
         '/images/mole3.png',
         '/images/mole4.png',
